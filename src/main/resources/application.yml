@@ -1,0 +1,22 @@
+spring:
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+  # jdbc
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${USERNAME:root}
+    password: ${PASSWORD:0504}
+    url: jdbc:mysql://${DB_URL:localhost}:3306/${DB_NAME:Dayt_BE}
+
+  # jpa
+  jpa:
+    hibernate:
+      ddl-auto: ${DDL_AUTO:update}
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
