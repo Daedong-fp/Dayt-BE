@@ -19,16 +19,12 @@ public class AuthDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> optionalUser = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(()->new UsernameNotFoundException("User not found"));
 
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            UserDetails userDetails = mapUserToUserDetails(user);
-            return new AuthDetails(userDetails);
-        } else {
-            throw new UsernameNotFoundException("User not found with username: " + username);
-        }
+        return new AuthDetails(user);
     }
+
 
 }
