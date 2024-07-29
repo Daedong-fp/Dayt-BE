@@ -23,6 +23,7 @@ public class User {
     @Column(length = 4)
     private String name;
 
+    private Role role;
 
     public User(String username, String password, String name) {
         this.username = username;

@@ -1,13 +1,11 @@
 package com.example.dayt.global.security.auth;
 
 import com.example.dayt.domain.user.domain.User;
-import com.example.dayt.domain.user.domain.dto.AuthDto;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -16,12 +14,11 @@ import java.util.Collections;
 public class AuthDetails implements UserDetails {
 
     private final User user;
-    private final AuthDto authDto;
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + authDto.getRole()));
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
     }
 
 

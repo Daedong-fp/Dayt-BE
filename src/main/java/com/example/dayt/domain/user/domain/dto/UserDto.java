@@ -20,6 +20,7 @@ public class UserDto {
     @Column(length = 4)
     private String name;
 
+    private Role role;
 
 
 }
