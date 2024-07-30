@@ -7,7 +7,14 @@ import lombok.Setter;
 @Setter
 public class UpdateUserDto {
 
-    String name;
 
-    String username;
+    private String username;
+
+    private String password;
+
+    private String name;
+
+    private String introduce;
+
+
 }

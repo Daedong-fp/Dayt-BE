@@ -19,7 +19,7 @@ public class UserService {
     public UserDto getUserDetail(String username){
         User user =userRepository.findByUsername(username)
                 .orElseThrow(()->new IllegalArgumentException("User not found"));
-        return new UserDto(user.getUsername(),user.getPassword(),user.getName());
+        return new UserDto(user.getUsername(),user.getPassword(),user.getName(),user.getRole());
     }
 
     @Transactional
@@ -27,11 +27,14 @@ public class UserService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(()-> new IllegalArgumentException("User not found"));
 
-        user.setName(updateUserDto.getName());
         user.setUsername(updateUserDto.getUsername());
+        user.setPassword(updateUserDto.getPassword());
+        user.setName(updateUserDto.getName());
+        user.setIntroduce(updateUserDto.getIntroduce());
+
         userRepository.save(user);
 
-        return new UserDto(user.getUsername(), user.getPassword(), user.getName());
+        return new UserDto(user.getUsername(), user.getPassword(), user.getName(),user.getRole());
     }
 
     @Transactional
