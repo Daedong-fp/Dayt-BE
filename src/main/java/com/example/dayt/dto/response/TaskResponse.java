@@ -1,6 +1,7 @@
 package com.example.dayt.dto.response;
 
 import com.example.dayt.entity.Board;
+import com.example.dayt.entity.Task;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,5 +25,13 @@ public class TaskResponse {
         this.userName = userName;
         this.status = status;
         this.createTime = createTime;
+    }
+
+    public TaskResponse(Task task) {
+        this.board = task.getBoard();
+        this.title = task.getTitle();
+        this.userName = task.getUserName();
+        this.takeList = task.getTakeList();
+        this.createTime = task.getCreateTime();
     }
 }

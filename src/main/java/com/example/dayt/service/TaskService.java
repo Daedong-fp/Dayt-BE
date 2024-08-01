@@ -11,6 +11,9 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @DynamicUpdate
@@ -66,17 +69,13 @@ public class TaskService {
         taskRepository.save(task);
     }
 
-    public TaskResponse getTask(Long boardId) {
-        Task task = taskRepository.findById(boardId)
-                .orElseThrow(() -> new RuntimeException("Not Found"));
+    //전체 조회
+    public List<TaskResponse> getAllTask() {
+        List<Task> tasks = taskRepository.findAll();
 
-        return TaskResponse.builder()
-                .board(task.getBoard())
-                .title(task.getTitle())
-                .userName(task.getUserName())
-                .takeList(task.getTakeList())
-                .createTime(task.getCreateTime())
-                .build();
+        return tasks.stream()
+                .map(TaskResponse::new)
+                .collect(Collectors.toList());
     }
 
     public void deleteTask(Long id) {

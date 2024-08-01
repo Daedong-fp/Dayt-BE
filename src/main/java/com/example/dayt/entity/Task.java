@@ -35,7 +35,6 @@ public class Task {
 
     private int createTime;
 
-
     @Builder
     public Task(Long id, Board board, String userName, String title, String takeList, String status, int createTime) {
         this.id = id;
