@@ -1,17 +1,19 @@
 package com.example.dayt.service;
 
-import com.example.dayt.dto.TaskRequest;
-import com.example.dayt.dto.TaskResponse;
+import com.example.dayt.dto.Request.TaskRequest;
+import com.example.dayt.dto.response.TaskResponse;
 import com.example.dayt.entity.Board;
 import com.example.dayt.entity.Task;
 import com.example.dayt.repository.TaskRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@DynamicUpdate
 public class TaskService {
 
     private static final int MaxTask = 8;

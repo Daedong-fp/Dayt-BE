@@ -1,9 +1,8 @@
 package com.example.dayt.controller;
 
-import com.example.dayt.dto.TaskRequest;
-import com.example.dayt.dto.TaskResponse;
+import com.example.dayt.dto.Request.TaskRequest;
+import com.example.dayt.dto.response.TaskResponse;
 import com.example.dayt.service.TaskService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,6 +1,6 @@
 package com.example.dayt.entity;
 
-import com.example.dayt.dto.TaskRequest;
+import com.example.dayt.dto.Request.TaskRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -23,14 +23,18 @@ public class Task {
 
     private String userName;
 
-    @Column(columnDefinition = "varchar (20) default 'empty'")
+    @Column(length = 20)
     private String title;
 
-    @Column(columnDefinition = "varchar (30) default 'empty'")
+    @Column(length = 30)
     private String takeList;
 
-    private int createTime;
+
+    @Column(length = 10)
     private String status;
+
+    private int createTime;
+
 
     @Builder
     public Task(Long id, Board board, String userName, String title, String takeList, String status, int createTime) {

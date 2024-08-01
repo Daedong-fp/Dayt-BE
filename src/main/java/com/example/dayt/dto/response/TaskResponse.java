@@ -1,4 +1,4 @@
-package com.example.dayt.dto;
+package com.example.dayt.dto.response;
 
 import com.example.dayt.entity.Board;
 import lombok.AccessLevel;
