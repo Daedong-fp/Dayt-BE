@@ -1,12 +1,11 @@
-package com.example.dayt.domain.user.domain.dto;
+package com.example.dayt.domain.auth.dto.request;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
-public class UpdateUserDto {
-
+@NoArgsConstructor
+public class AuthRequest {
 
     private String username;
 
@@ -15,6 +14,4 @@ public class UpdateUserDto {
     private String name;
 
     private String introduce;
-
-
 }

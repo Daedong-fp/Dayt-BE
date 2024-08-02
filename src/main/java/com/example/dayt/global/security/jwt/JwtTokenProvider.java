@@ -2,21 +2,21 @@ package com.example.dayt.global.security.jwt;
 
 import com.example.dayt.domain.auth.dao.RefreshTokenRepository;
 import com.example.dayt.domain.auth.domain.RefreshToken;
+import com.example.dayt.domain.user.domain.User;
 import com.example.dayt.domain.user.domain.dao.UserRepository;
 import com.example.dayt.global.security.auth.AuthDetailsService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class JwtTokenProvider {
 
     private final JwtProperties jwtProperties;
@@ -27,7 +27,7 @@ public class JwtTokenProvider {
 
     private final RefreshTokenRepository refreshTokenRepository;
 
-
+    // access token 생성
     public String createAccessToken(String username) {
 
         Date now = new Date();
@@ -58,6 +58,7 @@ public class JwtTokenProvider {
                         .token(refreshToken)
                         .timeToLive(jwtProperties.getRefreshExpiration())
                         .build());
+
         return refreshToken;
     }
 
@@ -68,12 +69,25 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    public LoginResponse receiveToken(String accountId) {
+    private Claims getTokenBody(String token) {
+        try {
+            return Jwts.parser()
+                    .setSigningKey(jwtProperties.getSecret())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            throw new JwtException("Token expired", e);
+        } catch (Exception e) {
+            throw new JwtException("Invalid token", e);
+        }
 
-        Date now = new Date();
+    public LoginResponse receiveToken(String username) {
 
-        User user = userRepository.findByAccountId(accountId)
-                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+        Date  now = new Date();
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(()-> new IllegalArgumentException("User not found"));
 
         return LoginResponse
                 .builder()
@@ -81,7 +95,6 @@ public class JwtTokenProvider {
                 .refreshToken(createRefreshToken(accountId))
                 .accessExpiredAt(new Date(now.getTime() + jwtProperties.getAccessExpiration()))
                 .refreshExpiredAt(new Date(now.getTime() + jwtProperties.getRefreshExpiration()))
-                .part(user.getPart())
                 .build();
     }
 
@@ -95,5 +108,4 @@ public class JwtTokenProvider {
         }
         return null;
     }
-
 }

@@ -1,9 +1,8 @@
 package com.example.dayt.domain.user.domain.api;
 
-import com.example.dayt.domain.user.domain.User;
 import com.example.dayt.domain.user.domain.application.UserService;
-import com.example.dayt.domain.user.domain.dto.UpdateUserDto;
-import com.example.dayt.domain.user.domain.dto.UserDto;
+import com.example.dayt.domain.user.domain.dto.request.UserRequest;
+import com.example.dayt.domain.user.domain.dto.response.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,16 +18,16 @@ public class UserController {
 
     @Operation(summary = "자신의 정보 조회", description = "자신의 정보를 조회합니다")
     @GetMapping("/inquiry")
-    public ResponseEntity<UserDto> getUserDetail(Authentication authentication){
+    public ResponseEntity<UserResponse> getUserDetail(Authentication authentication){
         String username = authentication.getName();
-        UserDto userDto = userService.getUserDetail(username);
-        return ResponseEntity.ok(userDto);
+        UserResponse userResponse = userService.getUser(username);
+        return ResponseEntity.ok(userResponse);
     }
     @Operation(summary = "자신의 회원 정보 수정", description = "자신의 회원 정보를 수정합니다")
     @PatchMapping("/update")
-    public ResponseEntity<UserDto> updateUserDetails(Authentication authentication, @RequestBody UpdateUserDto updateUserDto) {
-        UserDto updatedUserDto = userService.updateUserDetails(authentication.getName(), updateUserDto);
-        return ResponseEntity.ok(updatedUserDto);
+    public ResponseEntity<UserResponse> updateUserDetails(Authentication authentication, @RequestBody UserRequest userRequest) {
+        UserResponse updatedUserResponse = userService.updateUser(authentication.getName(), userRequest);
+        return ResponseEntity.ok(updatedUserResponse);
     }
 
     @Operation(summary = "자신의 회원 정보 삭제", description = "자신의 회원 정보를 삭제합니다")
